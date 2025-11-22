@@ -1,0 +1,14 @@
+requests
+beautifulsoup4
+pymongo
+selenium
+fastapi==0.112.2
+uvicorn[standard]==0.30.6
+pydantic==2.8.2
+pymongo==4.8.0
+requests==2.32.3
+beautifulsoup4==4.12.3
+transformers==4.43.3
+huggingface_hub==0.24.6
+# CPU-only torch; plus léger et fiable en Docker
+# (le --index-url est appliqué dans le Dockerfile pour éviter CUDA)

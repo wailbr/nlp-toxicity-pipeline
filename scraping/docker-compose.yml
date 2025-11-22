@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    container_name: toxicity_api
+    env_file:
+      - .env
+    environment:
+      - PORT=${PORT:-8000}
+      - MONGO_URI=${MONGO_URI:-mongodb://mongo:27017/}
+      - MONGO_DB=${MONGO_DB:-articles_db}
+    ports:
+      - "${PORT:-8000}:8000"
+    depends_on:
+      - mongo
+    volumes:
+      - hf_cache:/cache
+
+  mongo:
+    image: mongo:6
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: mongo_express
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      # - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      # - ME_CONFIG_MONGODB_ADMINPASSWORD=pass
+    ports:
+      - "8081:8081"
+
+volumes:
+  mongo_data:
+  hf_cache:
